@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Uma Mensagem</title>
+
+<style>
+body {
+    background-color: black;
+    color: #00ff9d;
+    font-family: "Courier New", monospace;
+    padding: 40px;
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+#terminal::after {
+    content: "_";
+    animation: piscar 1s infinite;
+}
+
+button {
+    background: #00ff9d;
+    color: black;
+    border: none;
+    padding: 12px 26px;
+    font-family: monospace;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #00cc7a;
+}
+
+.traducao {
+    margin-top: 40px;
+    color: #8affc1;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+@keyframes piscar {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<button onclick="tocarMusica()">▶ Iniciar música</button>
+
+<audio id="musica" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<div id="terminal"></div>
+
+<div id="traducao" class="traducao">
+    // tradução: mesmo em silêncio,<br>
+    // você ainda passa pela minha mente.
+</div>
+
+<script>
+const mensagens = [
+    "Inicializando sistema emocional...",
+    "",
+    "Carregando memórias...",
+    "",
+    "while (coração_batendo) {",
+    "    pensando_em_você(Lorena);",
+    "}",
+    "",
+    "// execução contínua..."
+];
+
+let linhaAtual = 0;
+let charAtual = 0;
+
+function digitar() {
+    const terminal = document.getElementById("terminal");
+
+    if (linhaAtual < mensagens.length) {
+        if (charAtual < mensagens[linhaAtual].length) {
+            terminal.innerHTML += mensagens[linhaAtual].charAt(charAtual);
+            charAtual++;
+            setTimeout(digitar, 35);
+        } else {
+            terminal.innerHTML += "<br>";
+            linhaAtual++;
+            charAtual = 0;
+            setTimeout(digitar, 300);
+        }
+    } else {
+        document.getElementById("traducao").style.opacity = 1;
+
+        setTimeout(() => {
+            terminal.innerHTML += "<br>";
+            linhaAtual = 0;
+            charAtual = 0;
+            digitar();
+        }, 2000);
+    }
+}
+
+function tocarMusica() {
+    const musica = document.getElementById("musica");
+    musica.volume = 0.35;
+    musica.play();
+}
+
+digitar();
+</script>
+
+</body>
+</html>
